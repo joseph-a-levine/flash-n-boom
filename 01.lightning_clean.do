@@ -31,7 +31,8 @@ foreach file in `files' {
 	foreach var of local varlist {
 		rename `var' `var'_`outfile'
 	}
-	save "`outfile'", replace
+	*save "`outfile'", replace
+	save "$temppath/`outfile'.dta", replace
 }
 
 
