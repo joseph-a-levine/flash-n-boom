@@ -15,19 +15,17 @@ global resultspath1 "~/Dropbox/Research/Weather/flashboom/Analysis"
 * start with importing the master data from NOAA
 ********
 
+import delimited "$datapath2\county_files.txt", varnames(1)
 
-*import delimited "$datapath1/swdireport-VT-Addison-BETA.csv", clear
+keep if substr(name, 12, 2) == "VT"
+drop if name == "swdireport-VT-BETA.csv"
 
-local files : dir "$datapath2" files "swdireport-VT*.csv"
+levelsof name, local(files)
 
-display `files'
-
-cd "$datapath2"
-
-*downloads each file and renames varialbes to include county name
+clear
 
 foreach file in `files' {
-    import delimited `file', clear
+	import delimited "$datapath1/`file'", clear
 	local outfile = substr("`file'",15,(strrpos("`file'","-")-15))
 	syntax [varlist]
 	foreach var of local varlist {
@@ -37,11 +35,15 @@ foreach file in `files' {
 }
 
 
-******
+
+
+
+/******
 *Next steps:
-*1) append dta files
-*2) find out how to import delimited direct from web. note line 19 works!!!
-*3) get time periods constant
-*******
+1) append dta files
+2) find out how to import delimited direct from web. note line 19 works!!!
+		did this!! Looks great
+3) get time periods constant
+*******/
 
 
