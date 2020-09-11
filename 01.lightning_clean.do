@@ -12,17 +12,28 @@ global resultspath1 "~/Dropbox/Research/Weather/flashboom/Analysis"
 * Goal: Get lightning data into Stata
 
 ********
-* start with importing the master data from NOAA
+* This file reads in county-level data on number of daily lightning strikes for 10,000 days prior to 2014
+* Because my computer is old and I don't want to do the whole US at once, I wrote with VT in mind
+* and tested with CA, VA, and DE (to see if we can handle county irregularities)
+*
+*
 ********
 
+*read in name of files for each county in US
 import delimited "$datapath2\county_files.txt", varnames(1)
 
 
-*get rid of this line to do all states; replace VT with two letter code for other states
-keep if substr(name, 12, 2) == "VT"
+*drop this line to read in all states
+*replace VT with two letter code for other states
+keep if substr(name, 12, 2) == "VT" 
+
 
 *need to drop all the state-wide beta files, this will be not so simple
-drop if name == "swdireport-VT-BETA.csv"
+*^wrong! Turns out it was very simple! this only works because file names are so consistent
+*Thanks, NOAA
+*These files are not useful because I can (and will) construct the same data on the county level
+*Andthere are no counties without states assigned
+drop if substr(name, 15 , 4) == "BETA"
 
 levelsof name, local(files)
 
@@ -33,9 +44,9 @@ local files: list files - first_file
 
 
 *first file - to set up the merge
-*it's annoying that you can't merge into a blank file, or set up an \\
+*it's annoying that you can't merge into a blank file, or set up an 
 *"if" statement for the empty dataset
-*I didn't think it was true, but implied to be the best way here:
+*I didn't think it was true, but implied to be the best possible way here:
 *https://www.statalist.org/forums/forum/general-stata-discussion/general/1484575-how-to-merge-10-datasets-and-loop-through-them
 import delimited "$datapath1/`first_file'", clear
 local outfile = substr("`first_file'",15,(strrpos("`first_file'","-")-15))
@@ -51,7 +62,7 @@ clear
 
 
 
-*now working off the rest of the file names, from local files
+*now working off the rest of the file names, from local `files'
 foreach file in `files' {
 	import delimited "$datapath1/`file'", clear
 	local outfile = substr("`file'",15,(strrpos("`file'","-")-15))
