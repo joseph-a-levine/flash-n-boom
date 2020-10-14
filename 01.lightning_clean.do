@@ -19,7 +19,7 @@ pause on		  // Enables pause, to assist with debugging
 clear all  		  // Start with a clean slate
 set linesize 100  // Line size limit to make output/logs more readable
 set mem 15m		  // Sets usable memory in the evironment /*\ MUST CHECK FILE SIZE \*/
-macro drop _all   // Clear all macros
+macro drop _all   // Clear all macros 
 cap log close     // Close any open log files
 
 /*\ ATTENTION \*/
