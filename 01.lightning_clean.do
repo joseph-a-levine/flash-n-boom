@@ -1,7 +1,7 @@
 *------------------Header---------------------
 * Load lightning data into Stata
 * 01b.lightning_clean
-* Last edited date: 2020-10-09
+* Last edited date: 2020-10-14
 * Last edited by: Joseph Levine
 * Note: This does not run from URLs. Requires a text file.
 * 		Analysis code is in private repository, contact jablevine@gmail.com ///
